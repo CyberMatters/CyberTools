@@ -172,13 +172,15 @@ def virusTotalUrl(ioc, url, headers, payload, files):
 
         else:
             url = "https://www.virustotal.com/api/v3/analyses/" + analysis_id
+            headers = {'x-apikey': vtApiKey}
+            payload={}
 
             try:
                 res = requests.request("GET", url, headers=headers, data=payload)
                 res.raise_for_status()
 
             except Exception as error:
-                print("request error")
+                print(error)
 
             else:
                 nice_json = re.sub('\'', '\"', res.text)
@@ -236,6 +238,7 @@ def virusTotalIp(ioc, url, headers,payload):
 
 def setVTParam() :
 
+    os.system("cls")
     print("******************************************")
     print("********** VIRUS TOTAL MODULE *********")
     print("******************************************")
@@ -244,20 +247,20 @@ def setVTParam() :
     print()
     
     pattern_ip = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d{0,5}){0,1}')
-    pattern_domain = re.compile(r'^\.{0,1}(\w{1,63}\.\w+)$')
-    pattern_url = re.compile(r'https*:\/\/(?:\w+\.)+(?:\w+)(?:\/{0,1}\w+\.*)*')
+    pattern_domain = re.compile(r'(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b')
+    pattern_url = re.compile(r'(?:http|https|ftp|sftp){0,1}:\/\/(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b(?:[a-zA-Z0-9@:%._\+~#?&\/=-]+)*')
     pattern_md5 = re.compile(r'^[a-fA-F0-9]{32}$')
     pattern_sha1 = re.compile(r'^[a-fA-F0-9]{40}$')
     pattern_sha256 = re.compile(r'^[a-fA-F0-9]{64}$')
 
     ioc=input()
 
-    is_ip = re.search(pattern_ip, ioc)
-    is_domain = re.search(pattern_domain, ioc)
-    is_url = re.search(pattern_url, ioc)
-    is_md5 = re.search(pattern_md5, ioc)
-    is_sha1 = re.search(pattern_sha1, ioc)
-    is_sha256 = re.search(pattern_sha256, ioc)
+    is_ip = re.fullmatch(pattern_ip, ioc)
+    is_domain = re.fullmatch(pattern_domain, ioc)
+    is_url = re.fullmatch(pattern_url, ioc)
+    is_md5 = re.fullmatch(pattern_md5, ioc)
+    is_sha1 = re.fullmatch(pattern_sha1, ioc)
+    is_sha256 = re.fullmatch(pattern_sha256, ioc)
 
     headers = {
         'x-apikey': vtApiKey
@@ -309,10 +312,10 @@ def phishTank():
 
     print("\nEnter URL to check")
     
-    pattern_url = re.compile(r'https*:\/\/(?:\w+\.)+(?:\w+)(?:\/{0,1}\w+\.*)*')
+    pattern_url = re.compile(r'(?:http|https|ftp|sftp){0,1}:\/\/(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b(?:[a-zA-Z0-9@:%._\+~#?&\/=-]+)*')
     urlToCheck = input()
 
-    is_url = re.search(pattern_url, urlToCheck)
+    is_url = re.fullmatch(pattern_url, urlToCheck)
 
     if is_url != None:
         url = "https://checkurl.phishtank.com/checkurl/index.php?url="
@@ -376,7 +379,7 @@ def emailRep() :
 
     addr = input()
 
-    is_email=re.search(pattern_email, addr)
+    is_email=re.fullmatch(pattern_email, addr)
 
     if is_email != None:
         encodedEmail = re.sub("@", "%40", addr)
@@ -514,7 +517,7 @@ def shodanIP() :
 
     ip = input()
 
-    is_ip = re.search(pattern_ip, ip)
+    is_ip = re.fullmatch(pattern_ip, ip)
 
     if is_ip != None:
         url = 'https://api.shodan.io/shodan/host/'
@@ -737,8 +740,8 @@ def extractIndicators() :
     domain_list = []
     url_list = []
     pattern_ip = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d{0,5}){0,1}')
-    pattern_domain = re.compile(r'\.{0,1}(\w{1,63}\.\w+)$')
-    pattern_url = re.compile(r'https*:\/\/(?:\w+\.)+(?:\w+)(?:\/{0,1}\w+\.*)*')
+    pattern_domain = re.compile(r'(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b')
+    pattern_url = re.compile(r'(?:http|https|ftp|sftp){0,1}:\/\/(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b(?:[a-zA-Z0-9@:%._\+~#?&\/=-]+)*')
     
     print("Enter txt file to analyze")
     filename = str.format(input())
@@ -965,14 +968,14 @@ def setThreatCrowdParam() :
     print ("Please enter domain, IP address or email address\n")
     
     pattern_ip = re.compile(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}(?::\d{0,5}){0,1}')
-    pattern_domain = re.compile(r'^\.{0,1}(\w{1,63}\.\w+)$')
+    pattern_domain = re.compile(r'(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}\b')
     pattern_email = re.compile(r'^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$')
 
     ioc=input()
 
-    is_ip = re.search(pattern_ip, ioc)
-    is_domain = re.search(pattern_domain, ioc)
-    is_email = re.search(pattern_email, ioc)
+    is_ip = re.fullmatch(pattern_ip, ioc)
+    is_domain = re.fullmatch(pattern_domain, ioc)
+    is_email = re.fullmatch(pattern_email, ioc)
 
     headers = {
         'x-apikey': vtApiKey
@@ -1009,15 +1012,15 @@ while (1 == 1):
     print("02 ==> ThreatCrowd module - Scan domains, IP addresses, email addresses")
     print("03 ==> PhishTank module - check phishing URL")
     print("04 ==> EmailRep module - Check email reputation")
-    print("05 ==> Hash a text")
-    print("06 ==> Hash a file")
+    print("05 ==> Compute the hash value of a text")
+    print("06 ==> Compute the hash value of a file")
     print("07 ==> SHODAN IP Search")
     print("08 ==> SHODAN DNS resolve")
     print("09 ==> SHODAN Reverse DNS")
     print("10 ==> SHODAN show my HTTP headers")
     print("11 ==> Sanitize URL")
     print("12 ==> Desanitize URL")
-    print("13 ==> Extract IP addresses, domain names and URLs from txt file")
+    print("13 ==> Extract IP addresses, domain names and URLs from file")
     print("14 ==> Get file magic number")
     
     print("\nType \'exit\' to exit the program :)")
