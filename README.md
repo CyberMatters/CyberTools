@@ -27,7 +27,7 @@ The included program allows the user to perform:
 * Extraction of domain names, IP addresses, URLs and email addresses from a given file
 * Discovery of the magic number of a file
 
-![menu](images/menu_screenshot.PNG)
+![menu](images/menu.PNG)
 
 ## Requirements
 
