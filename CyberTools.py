@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 import os
 import magic
 import sys
+import argparse
 
 #*********************************************************** Virus Total functions **************************************
 def virusTotalDomain(ioc, url, headers,payload):
@@ -225,7 +226,7 @@ def virusTotalIp(ioc, url, headers,payload):
 
     wait = input()
 
-def setVTParam() :
+def setVTParam(vtApiKey) :
 
     os.system("cls")
     print("******************************************")
@@ -494,7 +495,7 @@ def hashFile() :
     
 #*********************************************************** SHODAN FUNCTIONs **************************************
 
-def shodanIP() :
+def shodanIP(shodanApiKey) :
 
     os.system("cls")
     print("******************************************")
@@ -573,7 +574,7 @@ def shodanIP() :
 
     wait=input() 
     
-def shodanDNSResolve() :
+def shodanDNSResolve(shodanApiKey) :
 
     os.system("cls")
     print("******************************************")
@@ -605,7 +606,7 @@ def shodanDNSResolve() :
 
     wait=input() 
     
-def shodanReverseDNS() :
+def shodanReverseDNS(shodanApiKey) :
 
     os.system("cls")
     print("******************************************")
@@ -638,7 +639,7 @@ def shodanReverseDNS() :
 
     wait=input() 
     
-def shodanMyHTTPHeaders() :
+def shodanMyHTTPHeaders(shodanApiKey) :
 
     os.system("cls")
     print("******************************************")
@@ -992,8 +993,14 @@ def setThreatCrowdParam() :
 def main(argv):
     
     #*********** API keys **********
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--input", help="-i is followed by the path of the json file which contains your api key", required=True)
+    args = parser.parse_args()
+
+    filePath = args.input
+
     try:
-        with open("api_keys.json", "r") as key_file:
+        with open(filePath, "r") as key_file:
             data = json.load(key_file)
             vtApiKey = data["vtApiKey"]
             shodanApiKey = data["shodanApiKey"]
@@ -1032,7 +1039,7 @@ def main(argv):
         MenuDecision = input()
 
         if (MenuDecision == '01' or MenuDecision == '1') :    
-            setVTParam()
+            setVTParam(vtApiKey)
 
         elif (MenuDecision == '02' or MenuDecision == '2'):
 
@@ -1056,19 +1063,19 @@ def main(argv):
 
         elif (MenuDecision == '07' or MenuDecision == '7') :
 
-            shodanIP() 
+            shodanIP(shodanApiKey) 
 
         elif (MenuDecision == '08' or MenuDecision == '8') :
 
-            shodanDNSResolve()
+            shodanDNSResolve(shodanApiKey)
 
         elif (MenuDecision == '09' or MenuDecision == '9') :
 
-            shodanReverseDNS()
+            shodanReverseDNS(shodanApiKey)
 
         elif (MenuDecision == '10') :
 
-            shodanMyHTTPHeaders()
+            shodanMyHTTPHeaders(shodanApiKey)
 
         elif (MenuDecision == '11') :
 
