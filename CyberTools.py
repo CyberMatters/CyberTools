@@ -10,17 +10,6 @@ import os
 import magic
 import sys
 
-
-#*********************************************************** API keys **************************************
-try:
-    with open("api_keys.json", "r") as key_file:
-        data = json.load(key_file)
-        vtApiKey = data["vtApiKey"]
-        shodanApiKey = data["shodanApiKey"]
-
-except FileNotFoundError as error:
-    print(error)
-
 #*********************************************************** Virus Total functions **************************************
 def virusTotalDomain(ioc, url, headers,payload):
 
@@ -1000,93 +989,109 @@ def setThreatCrowdParam() :
 
 #*********************************************************** MAIN()**************************************
 
-while (1 == 1): 
-    os.system("cls")
-    print("******************************************")
-    print("**************** CyberTools **************")
-    print("****** by Dany Giang aka CyberMatters ****")
-    print("******************************************")
-
-    print("\nChoose the action to perform by entering the corresponding number :\n")
-    print("01 ==> VirusTotal module - Scan hashes, URLs, domains, IP addresses")
-    print("02 ==> ThreatCrowd module - Scan domains, IP addresses, email addresses")
-    print("03 ==> PhishTank module - check phishing URL")
-    print("04 ==> EmailRep module - Check email reputation")
-    print("05 ==> Compute the hash value of a text")
-    print("06 ==> Compute the hash value of a file")
-    print("07 ==> SHODAN IP Search")
-    print("08 ==> SHODAN DNS resolve")
-    print("09 ==> SHODAN Reverse DNS")
-    print("10 ==> SHODAN show my HTTP headers")
-    print("11 ==> Sanitize URL")
-    print("12 ==> Desanitize URL")
-    print("13 ==> Extract IP addresses, domain names and URLs from file")
-    print("14 ==> Get file magic number")
+def main(argv):
     
-    print("\nType \'exit\' to exit the program :)")
+    #*********** API keys **********
+    try:
+        with open("api_keys.json", "r") as key_file:
+            data = json.load(key_file)
+            vtApiKey = data["vtApiKey"]
+            shodanApiKey = data["shodanApiKey"]
 
-    print()
+    except FileNotFoundError as error:
+        print(error)
 
-    MenuDecision = input()
-         
-    if (MenuDecision == '01' or MenuDecision == '1') :    
-        setVTParam()
+    #**************** CyberTools Menu **************
+    while (1 == 1): 
+        os.system("cls")
+        print("******************************************")
+        print("**************** CyberTools **************")
+        print("****** by Dany Giang aka CyberMatters ****")
+        print("******************************************")
 
-    elif (MenuDecision == '02' or MenuDecision == '2'):
-    
-        setThreatCrowdParam()
-        
-    elif (MenuDecision == '03' or MenuDecision == '3'):
+        print("\nChoose the action to perform by entering the corresponding number :\n")
+        print("01 ==> VirusTotal module - Scan hashes, URLs, domains, IP addresses")
+        print("02 ==> ThreatCrowd module - Scan domains, IP addresses, email addresses")
+        print("03 ==> PhishTank module - check phishing URL")
+        print("04 ==> EmailRep module - Check email reputation")
+        print("05 ==> Compute the hash value of a text")
+        print("06 ==> Compute the hash value of a file")
+        print("07 ==> SHODAN IP Search")
+        print("08 ==> SHODAN DNS resolve")
+        print("09 ==> SHODAN Reverse DNS")
+        print("10 ==> SHODAN show my HTTP headers")
+        print("11 ==> Sanitize URL")
+        print("12 ==> Desanitize URL")
+        print("13 ==> Extract IP addresses, domain names and URLs from file")
+        print("14 ==> Get file magic number")
 
-        phishTank()
-        
-    elif (MenuDecision == '04' or MenuDecision == '4') :
+        print("\nType \'exit\' to exit the program :)")
 
-        emailRep()  
-          
-    elif (MenuDecision == '05' or MenuDecision == '5') :
+        print()
 
-        hashText()  
-        
-    elif (MenuDecision == '06' or MenuDecision == '6') :
+        MenuDecision = input()
 
-        hashFile() 
+        if (MenuDecision == '01' or MenuDecision == '1') :    
+            setVTParam()
 
-    elif (MenuDecision == '07' or MenuDecision == '7') :
+        elif (MenuDecision == '02' or MenuDecision == '2'):
 
-        shodanIP() 
-        
-    elif (MenuDecision == '08' or MenuDecision == '8') :
+            setThreatCrowdParam()
 
-        shodanDNSResolve()
-        
-    elif (MenuDecision == '09' or MenuDecision == '9') :
+        elif (MenuDecision == '03' or MenuDecision == '3'):
 
-        shodanReverseDNS()
+            phishTank()
 
-    elif (MenuDecision == '10') :
+        elif (MenuDecision == '04' or MenuDecision == '4') :
 
-        shodanMyHTTPHeaders()
-        
-    elif (MenuDecision == '11') :
+            emailRep()  
 
-        sanitize()
-        
-    elif (MenuDecision == '12') :
+        elif (MenuDecision == '05' or MenuDecision == '5') :
 
-        deSanitize()
-              
-    elif (MenuDecision == '13'):
-    
-        extractIndicators()   
+            hashText()  
 
-    elif (MenuDecision == '14'):
-    
-        magicNumber()   
-     
-    elif (MenuDecision == 'exit') :
+        elif (MenuDecision == '06' or MenuDecision == '6') :
 
-        exit()
-        
-    else :
-        print("Incorrect input")
+            hashFile() 
+
+        elif (MenuDecision == '07' or MenuDecision == '7') :
+
+            shodanIP() 
+
+        elif (MenuDecision == '08' or MenuDecision == '8') :
+
+            shodanDNSResolve()
+
+        elif (MenuDecision == '09' or MenuDecision == '9') :
+
+            shodanReverseDNS()
+
+        elif (MenuDecision == '10') :
+
+            shodanMyHTTPHeaders()
+
+        elif (MenuDecision == '11') :
+
+            sanitize()
+
+        elif (MenuDecision == '12') :
+
+            deSanitize()
+
+        elif (MenuDecision == '13'):
+
+            extractIndicators()   
+
+        elif (MenuDecision == '14'):
+
+            magicNumber()   
+
+        elif (MenuDecision == 'exit') :
+
+            exit()
+
+        else :
+            print("Incorrect input")
+
+if __name__=="__main__":
+    main(sys.argv[1:])
