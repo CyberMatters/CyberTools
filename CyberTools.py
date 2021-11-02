@@ -1,5 +1,6 @@
 #! python3
 # Program written by Dany Giang aka CyberMatters
+# Copyright 2021 Dany GIANG
 
 import requests
 import json
