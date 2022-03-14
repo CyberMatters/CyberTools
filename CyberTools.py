@@ -381,6 +381,11 @@ def virusTotalIp(df,df_cpt,in_file,ioc, url, headers,payload):
                 df.at[df_cpt,'ip'] = safe_ioc
 
                 try:
+                    df.at[df_cpt,'as_owner'] = str(data["data"]["attributes"]["as_owner"])        
+                except:
+                    df.at[df_cpt,'as_owner'] = "Missing key in data"
+                    
+                try:
                     df.at[df_cpt,'harmless'] = str(data["data"]["attributes"]["last_analysis_stats"]["harmless"])        
                 except:
                     df.at[df_cpt,'harmless'] = "Missing key in data"
@@ -463,7 +468,7 @@ def setVTParam(vtApiKey) :
     count=1
 
     # Create the dataframe that will contain the obfuscated commands and associated descriptions
-    data = {'domain':[''],'ip':[''],'url':[''],'ip':[''],'hash':[''],'category':[''],'harmless':[''],'malicious':[''],'suspicious':[''],'undetected':[''],'last_https_certificate_issuer':[''],'file_type':[''],'file_name':[''],'product':[''],'verified':[''], 'description':[''], 'file version':[''],'signing date':[''],'error':['']}
+    data = {'domain':[''],'ip':[''],'url':[''],'hash':[''],'category':[''],'as_owner':[''],'harmless':[''],'malicious':[''],'suspicious':[''],'undetected':[''],'last_https_certificate_issuer':[''],'file_type':[''],'file_name':[''],'product':[''],'verified':[''], 'description':[''], 'file version':[''],'signing date':[''],'error':['']}
     df = pd.DataFrame(data)
     df_cpt = -1
 
